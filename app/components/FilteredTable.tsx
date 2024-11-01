@@ -65,7 +65,7 @@ export function FilteredTable({ data }: FilteredTableProps) {
             Origin {selectedOrigin && `(${selectedOrigin})`}
           </label>
           <select
-            className="block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white"
+            className="block w-full h-10 rounded-md border px-2 text-slate-600 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white"
             value={selectedOrigin}
             onChange={(e) => handleOriginChange(e.target.value)}
           >
@@ -82,7 +82,7 @@ export function FilteredTable({ data }: FilteredTableProps) {
             Destination {selectedDestination && `(${selectedDestination})`}
           </label>
           <select
-            className="block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white"
+            className="block w-full h-10 rounded-md border px-2 text-slate-600 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm bg-white"
             value={selectedDestination}
             onChange={(e) => setSelectedDestination(e.target.value)}
           >
@@ -98,7 +98,7 @@ export function FilteredTable({ data }: FilteredTableProps) {
           onClick={handleClearFilters}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors
             ${selectedOrigin || selectedDestination 
-              ? 'bg-red-600 text-white hover:bg-red-700' 
+              ? 'bg-indigo-600 text-white hover:bg-indigo-700' 
               : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
           disabled={!selectedOrigin && !selectedDestination}
         >
@@ -120,7 +120,7 @@ export function FilteredTable({ data }: FilteredTableProps) {
 
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 border-b rounded-t-lg">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Origin
