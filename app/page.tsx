@@ -2,7 +2,13 @@
 import { google } from 'googleapis';
 import { FilteredTable } from './components/FilteredTable';
 
-async function getSheetData() {
+interface RowData {
+  origin: string;
+  destination: string;
+  value: string;
+}
+
+async function getSheetData(): Promise<RowData[]> {
   try {
     const auth = new google.auth.GoogleAuth({
       credentials: {
@@ -23,11 +29,11 @@ async function getSheetData() {
 
     // Transform the data into an array of objects
     const rows = response.data.values || [];
-    const headers = rows[0];
+    // Skip the header row (index 0) and map the data rows
     const data = rows.slice(1).map(row => ({
-      origin: row[0],
-      destination: row[1],
-      value: row[2]
+      origin: String(row[0]),
+      destination: String(row[1]),
+      value: String(row[2])
     }));
 
     return data;
@@ -38,13 +44,14 @@ async function getSheetData() {
 }
 
 export default async function Home() {
-  let data;
-  let error;
+  let data: RowData[] = [];
+  let error: Error | null = null;
 
   try {
-    data = await getSheetData();
+    const fetchedData = await getSheetData();
+    data = fetchedData;
   } catch (e) {
-    error = e;
+    error = e as Error;
   }
 
   if (error) {
@@ -53,6 +60,17 @@ export default async function Home() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-red-600 mb-2">Error Loading Data</h1>
           <p className="text-gray-600">Please check your sheet configuration and try again.</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data.length) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">No Data Available</h1>
+          <p className="text-gray-600">The sheet appears to be empty.</p>
         </div>
       </div>
     );
